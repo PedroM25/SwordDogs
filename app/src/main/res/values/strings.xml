@@ -4,4 +4,5 @@
     <string name="title_search">Search</string>
     <string name="title_detailed_breed">Detailed breed</string>
     <string name="placeholder">Placeholder</string>
+    <string name="dog_photo_desc">Photo of a dog representing its breed</string>
 </resources>

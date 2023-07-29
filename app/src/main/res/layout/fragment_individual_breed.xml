@@ -7,7 +7,8 @@
         android:id="@+id/dog_of_breed_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@tools:sample/avatars" />
+        android:src="@tools:sample/avatars"
+        android:contentDescription="@string/dog_photo_desc" />
 
     <TextView
         android:id="@+id/breed_name"
