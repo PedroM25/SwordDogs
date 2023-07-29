@@ -1,13 +1,13 @@
-package com.example.sworddogs.ui.home
+package com.example.sworddogs.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class SearchViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "Where to search for breeds"
     }
     val text: LiveData<String> = _text
 }
