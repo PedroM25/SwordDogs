@@ -11,9 +11,9 @@
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_search" />
 
-    <item
+    <!--item
         android:id="@+id/navigation_detailed_breed"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_detailed_breed" />
+        android:title="@string/title_detailed_breed" /-->
 
 </menu>

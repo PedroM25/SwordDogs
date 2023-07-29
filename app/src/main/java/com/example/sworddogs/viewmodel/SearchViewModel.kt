@@ -1,13 +1,13 @@
-package com.example.sworddogs.ui.breeds
+package com.example.sworddogs.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class BreedsViewModel : ViewModel() {
+class SearchViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "All the breeds go here"
+        value = "Where to search for breeds"
     }
     val text: LiveData<String> = _text
 }

@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_breeds"
-        android:name="com.example.sworddogs.ui.breeds.BreedsFragment"
+        android:name="com.example.sworddogs.view.breeds.BreedsFragment"
         android:label="@string/title_breeds"
         tools:layout="@layout/fragment_breeds" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.sworddogs.ui.search.SearchFragment"
+        android:name="com.example.sworddogs.view.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_detailed_breed"
-        android:name="com.example.sworddogs.ui.detailed_breed.DetailedBreedFragment"
+        android:name="com.example.sworddogs.view.DetailedBreedFragment"
         android:label="@string/title_detailed_breed"
         tools:layout="@layout/fragment_detailed_breed" />
 </navigation>

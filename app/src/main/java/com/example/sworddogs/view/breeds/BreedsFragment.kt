@@ -1,4 +1,4 @@
-package com.example.sworddogs.ui.breeds
+package com.example.sworddogs.view.breeds
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.sworddogs.databinding.FragmentBreedsBinding
+import com.example.sworddogs.viewmodel.BreedsViewModel
 
 class BreedsFragment : Fragment() {
 
@@ -16,12 +17,14 @@ class BreedsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var breedsViewModel: BreedsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        subscribe()
         val breedsViewModel =
             ViewModelProvider(this).get(BreedsViewModel::class.java)
 
@@ -38,5 +41,19 @@ class BreedsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun subscribe() {
+        breedsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            // Is sending the API request
+        }
+
+        breedsViewModel.isError.observe(viewLifecycleOwner) { isError ->
+            // Encountered an error in the process
+        }
+
+        breedsViewModel.allBreedsData.observe(viewLifecycleOwner) { weatherData ->
+            // Display weather data to the UI
+        }
     }
 }

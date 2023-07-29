@@ -1,4 +1,4 @@
-package com.example.sworddogs.ui.search
+package com.example.sworddogs.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.sworddogs.databinding.FragmentSearchBinding
+import com.example.sworddogs.databinding.FragmentDetailedBreedBinding
+import com.example.sworddogs.viewmodel.DetailedBreedViewModel
 
-class SearchFragment : Fragment() {
+class DetailedBreedFragment : Fragment() {
 
-    private var _binding: FragmentSearchBinding? = null
+    private var _binding: FragmentDetailedBreedBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +23,14 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val searchViewModel =
-            ViewModelProvider(this).get(SearchViewModel::class.java)
+        val detailedBreedViewModel =
+            ViewModelProvider(this).get(DetailedBreedViewModel::class.java)
 
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailedBreedBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSearch
-        searchViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textDetailedBreed
+        detailedBreedViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

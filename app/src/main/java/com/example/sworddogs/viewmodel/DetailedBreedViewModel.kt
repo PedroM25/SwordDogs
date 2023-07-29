@@ -1,4 +1,4 @@
-package com.example.sworddogs.ui.detailed_breed
+package com.example.sworddogs.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
