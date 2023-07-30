@@ -1,5 +1,6 @@
 package com.example.sworddogs.view.breeds
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,10 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.sworddogs.ListAllBreeds
+import com.example.sworddogs.ListOfBreeds
 import com.example.sworddogs.R
+import com.example.sworddogs.model.BreedResponse
 
-class BreedsAdapter(private val listOfAllBreeds: ListAllBreeds) :
+class BreedsAdapter(private val listOfLimitedBreeds: MutableList<BreedResponse> = mutableListOf()) :
     RecyclerView.Adapter<BreedsAdapter.BreedViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedViewHolder {
@@ -19,7 +21,7 @@ class BreedsAdapter(private val listOfAllBreeds: ListAllBreeds) :
     }
 
     override fun onBindViewHolder(holder: BreedViewHolder, position: Int) {
-        val data = listOfAllBreeds[position]
+        val data = listOfLimitedBreeds[position]
         holder.breedNameTextView.text = data.name
         Glide
             .with(holder.dogBreedImageView)
@@ -28,7 +30,20 @@ class BreedsAdapter(private val listOfAllBreeds: ListAllBreeds) :
             .into(holder.dogBreedImageView)
     }
 
-    override fun getItemCount() = listOfAllBreeds.size
+    override fun getItemCount() = listOfLimitedBreeds.size
+
+    //o que acontece no exemplo é:
+    // método nesta class que incrementa a lista lá em cima, recebida no construtor,
+    // com novos elementos recebidos da API e depois é invocado o   notifyDataSetChanged()
+
+    // comportamento atual: criação de um novo adapter (este ficheiro) sempre
+    // que se recebem dados novos
+
+    fun addReceivedBreeds(receivedBreeds : ListOfBreeds){
+        Log.i("PEDRO", "addAll new breeds + notifyDataSetChanged()")
+        listOfLimitedBreeds.addAll(receivedBreeds)
+        notifyDataSetChanged()
+    }
 
     class BreedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dogBreedImageView: ImageView = itemView.findViewById(R.id.image_dog_breed)
