@@ -21,29 +21,49 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/order_alphabetically_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:src="@android:drawable/ic_menu_sort_by_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="50px"
-        android:layout_marginEnd="50px"
-         />
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@string/order_alphabetically_button_desc"
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="50dp"
+        app:icon="@drawable/baseline_sort_by_alpha_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="27dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/grid_linear_switch_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:src="@android:drawable/ic_menu_sort_by_size"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:contentDescription="@string/grid_linear_switch_button_desc"
+
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="50dp"
+        app:icon="@drawable/baseline_grid_view_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="27dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/order_alphabetically_button"
-        android:layout_marginBottom="50px"
-        android:layout_marginEnd="50px"
-        />
+        app:layout_constraintEnd_toStartOf="@id/order_alphabetically_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

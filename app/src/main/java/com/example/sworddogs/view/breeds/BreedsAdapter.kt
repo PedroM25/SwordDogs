@@ -12,7 +12,7 @@ import com.example.sworddogs.ListOfBreeds
 import com.example.sworddogs.R
 import com.example.sworddogs.model.BreedResponse
 
-class BreedsAdapter(private val listOfLimitedBreeds: MutableList<BreedResponse> = mutableListOf()) :
+class BreedsAdapter(private var listOfLimitedBreeds: MutableList<BreedResponse> = mutableListOf()) :
     RecyclerView.Adapter<BreedsAdapter.BreedViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedViewHolder {
@@ -32,16 +32,15 @@ class BreedsAdapter(private val listOfLimitedBreeds: MutableList<BreedResponse> 
 
     override fun getItemCount() = listOfLimitedBreeds.size
 
-    //o que acontece no exemplo é:
-    // método nesta class que incrementa a lista lá em cima, recebida no construtor,
-    // com novos elementos recebidos da API e depois é invocado o   notifyDataSetChanged()
-
-    // comportamento atual: criação de um novo adapter (este ficheiro) sempre
-    // que se recebem dados novos
-
     fun addReceivedBreeds(receivedBreeds : ListOfBreeds){
         Log.i("PEDRO", "addAll new breeds + notifyDataSetChanged()")
         listOfLimitedBreeds.addAll(receivedBreeds)
+        notifyDataSetChanged()
+    }
+
+    fun orderAlphabetically(){
+        Log.i("PEDRO", "ordering alphabetically existing ")
+        listOfLimitedBreeds = listOfLimitedBreeds.sortedWith(compareBy { it.name }).toMutableList()
         notifyDataSetChanged()
     }
 

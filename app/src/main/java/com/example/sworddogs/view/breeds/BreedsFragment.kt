@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sworddogs.LOAD_THRESHOLD
+import com.example.sworddogs.R
 import com.example.sworddogs.SPAN
 import com.example.sworddogs.databinding.FragmentBreedsBinding
 import com.example.sworddogs.viewmodel.BreedsViewModel
@@ -27,7 +28,9 @@ class BreedsFragment : Fragment() {
 
     private var isFirstApiCall = true
     private var allBreedsLoaded = false
+    private var currentSpan = 1
 
+    //state seems to be lost when switch between apps of the bottom navigation bar?
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,19 +44,19 @@ class BreedsFragment : Fragment() {
         binding.allBreeds.adapter = breedsAdapter
 
         //listen for state changes
-        if (isFirstApiCall) { //it's either this or make API calls directly in the Adapter...
+        if (isFirstApiCall) {
+            // it's either this + live datas
+            // or
+            // make API calls directly in the Adapter to be able to directly manipulate
+            // list of breeds
             subscribe()
             isFirstApiCall = false
             breedsViewModel.getBreedsData(LOAD_THRESHOLD)
             Log.i("PEDRO", "Fetched $LOAD_THRESHOLD breeds initially")
         }
-        //before, I was calling the ViewModel method directly
-        // now, I am calling it inside the adapter, in the hopes
-        // that the list is updated properly and the Recycler can
-        // handle new changes well
 
         //RecyclerView stuff
-        val gridLayoutManager = GridLayoutManager(requireContext(), SPAN)
+        val gridLayoutManager = GridLayoutManager(requireContext(), currentSpan)
         binding.allBreeds.layoutManager = gridLayoutManager
         binding.allBreeds.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -72,13 +75,21 @@ class BreedsFragment : Fragment() {
         binding.gridLinearSwitchButton.setOnClickListener {
             val grid = binding.allBreeds.layoutManager as GridLayoutManager
             if (grid.spanCount > 1){
-                grid.spanCount = 1
+                binding.gridLinearSwitchButton.setIconResource(R.drawable.baseline_grid_view_24)
+                currentSpan = 1
+                grid.spanCount = currentSpan
                 return@setOnClickListener
             }
             if (grid.spanCount == 1){
-                grid.spanCount = 3
+                binding.gridLinearSwitchButton.setIconResource(R.drawable.baseline_view_list_24)
+                currentSpan = SPAN
+                grid.spanCount = currentSpan
                 return@setOnClickListener
             }
+        }
+
+        binding.orderAlphabeticallyButton.setOnClickListener {
+            breedsAdapter.orderAlphabetically()
         }
         return binding.root
     }

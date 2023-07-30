@@ -5,4 +5,6 @@
     <string name="title_detailed_breed">Detailed breed</string>
     <string name="placeholder">Placeholder</string>
     <string name="dog_photo_desc">Photo of a dog representing its breed</string>
+    <string name="grid_linear_switch_button_desc">Switch between a linear layout or a grid layout</string>
+    <string name="order_alphabetically_button_desc">Order breeds alphabetically by their name</string>
 </resources>
