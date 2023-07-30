@@ -43,13 +43,13 @@ class BreedsFragment : Fragment() {
         //adapter stuff
         binding.allBreeds.adapter = breedsAdapter
 
+        subscribe()
         //listen for state changes
         if (isFirstApiCall) {
             // it's either this + live datas
             // or
             // make API calls directly in the Adapter to be able to directly manipulate
             // list of breeds
-            subscribe()
             isFirstApiCall = false
             breedsViewModel.getBreedsData(LOAD_THRESHOLD)
             Log.i("PEDRO", "Fetched $LOAD_THRESHOLD breeds initially")
@@ -71,6 +71,14 @@ class BreedsFragment : Fragment() {
                 }
             }
         })
+
+        //button stuff
+        if (currentSpan > 1){
+            binding.gridLinearSwitchButton.setIconResource(R.drawable.baseline_view_list_24)
+        }
+        if (currentSpan == 1){
+            binding.gridLinearSwitchButton.setIconResource(R.drawable.baseline_grid_view_24)
+        }
 
         binding.gridLinearSwitchButton.setOnClickListener {
             val grid = binding.allBreeds.layoutManager as GridLayoutManager

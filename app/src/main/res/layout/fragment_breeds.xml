@@ -59,7 +59,6 @@
         android:insetRight="0dp"
         android:insetBottom="0dp"
         app:cornerRadius="50dp"
-        app:icon="@drawable/baseline_grid_view_24"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconSize="27dp"
