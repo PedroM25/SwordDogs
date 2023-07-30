@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.sworddogs.databinding.FragmentBreedsBinding
 import com.example.sworddogs.viewmodel.BreedsViewModel
 
@@ -24,18 +25,13 @@ class BreedsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        subscribe()
-        val breedsViewModel =
+        breedsViewModel =
             ViewModelProvider(this).get(BreedsViewModel::class.java)
+        subscribe()
+        breedsViewModel.getAllBreedsData()
 
         _binding = FragmentBreedsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textBreeds
-        breedsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -44,7 +40,7 @@ class BreedsFragment : Fragment() {
     }
 
     private fun subscribe() {
-        breedsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        breedsViewModel.isLoading.observe(viewLifecycleOwner) {  isLoading ->
             // Is sending the API request
         }
 
@@ -52,8 +48,9 @@ class BreedsFragment : Fragment() {
             // Encountered an error in the process
         }
 
-        breedsViewModel.allBreedsData.observe(viewLifecycleOwner) { weatherData ->
-            // Display weather data to the UI
+        breedsViewModel.allBreedsData.observe(viewLifecycleOwner) { allBreedsData ->
+            val breedsAdapter = BreedsAdapter(allBreedsData)
+            binding.allBreeds.adapter = breedsAdapter
         }
     }
 }

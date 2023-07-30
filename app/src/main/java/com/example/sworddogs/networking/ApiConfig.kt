@@ -21,7 +21,7 @@ class ApiConfig {
 
             //retrofit
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.thedogapi.com/v1")
+                .baseUrl("https://api.thedogapi.com/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

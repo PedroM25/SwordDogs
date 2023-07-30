@@ -11,8 +11,8 @@ import retrofit2.Response
 
 class BreedsViewModel : ViewModel() {
 
-    private val _allBreedsData = MutableLiveData<ListAllBreeds?>()
-    val allBreedsData: LiveData<ListAllBreeds?> get() = _allBreedsData
+    private val _allBreedsData = MutableLiveData<ListAllBreeds>()
+    val allBreedsData: LiveData<ListAllBreeds> get() = _allBreedsData
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -42,7 +42,7 @@ class BreedsViewModel : ViewModel() {
                 }
 
                 _isLoading.value = false
-                _allBreedsData.postValue(responseBody)
+                _allBreedsData.postValue(responseBody!!) //never null because of previous check
             }
 
             override fun onFailure(call: Call<ListAllBreeds>, t: Throwable) {
