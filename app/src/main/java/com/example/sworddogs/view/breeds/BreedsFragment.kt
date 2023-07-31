@@ -26,7 +26,7 @@ class BreedsFragment : Fragment() {
     private val breedsAdapter = BreedsAdapter()
     private lateinit var breedsViewModel: BreedsViewModel
 
-    private var isFirstApiCall = true
+    private var firstOnCreateView = true
     private var allBreedsLoaded = false
     private var currentSpan = 1
 
@@ -44,13 +44,13 @@ class BreedsFragment : Fragment() {
         binding.allBreeds.adapter = breedsAdapter
 
         //listen for state changes
-        if (isFirstApiCall) {
+        if (firstOnCreateView) {
             // it's either this + live datas
             // or
             // make API calls directly in the Adapter to be able to directly manipulate
             // list of breeds
             subscribe()
-            isFirstApiCall = false
+            firstOnCreateView = false
             breedsViewModel.getBreedsData(LOAD_THRESHOLD)
             Log.i("PEDRO", "Fetched $LOAD_THRESHOLD breeds initially")
         }
@@ -72,7 +72,7 @@ class BreedsFragment : Fragment() {
             }
         })
 
-        //button stuff
+        //Buttons stuff
         if (currentSpan > 1){
             binding.gridLinearSwitchButton.setIconResource(R.drawable.baseline_view_list_24)
         }
@@ -108,19 +108,19 @@ class BreedsFragment : Fragment() {
     }
 
     private fun subscribe() {
-        breedsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        breedsViewModel.isLoading.observe(requireActivity()) { isLoading ->
             if (isLoading)
                 Log.i("BreedsFragment", "Loading data from API...")
         }
 
-        breedsViewModel.isDone.observe(viewLifecycleOwner) { isDone ->
+        breedsViewModel.isDone.observe(requireActivity()) { isDone ->
             if (isDone) {
                 Log.i("BreedsFragment", "API depleted, no more breeds to fetch")
                 allBreedsLoaded = true
             }
         }
 
-        breedsViewModel.isError.observe(viewLifecycleOwner) { isError ->
+        breedsViewModel.isError.observe(requireActivity()) { isError ->
             if (isError) {
                 Log.i("BreedsFragment", breedsViewModel.errorMessage)
 
@@ -140,11 +140,5 @@ class BreedsFragment : Fragment() {
             Log.i("PEDRO", "the breeds list changed! new breeds received: $limitedBreedsData ")
             breedsAdapter.addReceivedBreeds(limitedBreedsData)
         }
-
-        /*
-        breedsViewModel.isGridLayout.observe(viewLifecycleOwner) { isGridLayout ->
-            // maybe here change the adapter
-        }
-         */
     }
 }

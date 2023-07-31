@@ -4,10 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SearchFragment">
+    tools:context=".view.search.SearchBreedsFragment">
 
-    <TextView
-        android:id="@+id/text_search"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/simple_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:queryHint="Breed name"
+        app:iconifiedByDefault="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/search_breeds_recycler_view"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_breeds_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -18,5 +28,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/simple_search_view"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.sworddogs.view.SearchFragment"
+        android:name="com.example.sworddogs.view.search.SearchBreedsFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search_breeds" />
 
     <fragment
         android:id="@+id/navigation_detailed_breed"

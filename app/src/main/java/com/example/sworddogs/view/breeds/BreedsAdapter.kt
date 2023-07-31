@@ -16,7 +16,7 @@ class BreedsAdapter(private var listOfLimitedBreeds: MutableList<BreedResponse> 
     RecyclerView.Adapter<BreedsAdapter.BreedViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_breed, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_photo_breed_card, parent, false)
         return BreedViewHolder(itemView)
     }
 
