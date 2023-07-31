@@ -11,9 +11,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.LinkedList
 
-class SearchViewModel : ViewModel() {
+class SearchBreedsViewModel : ViewModel() {
 
-    private var _allBreedsData = LinkedList<BreedResponse>()
+    private var _allBreedsData = ArrayList<BreedResponse>()
 
     private val _relevantBreedsFromSearchInput = MutableLiveData<ListOfBreeds>()
     val relevantBreedsFromSearchInput: LiveData<ListOfBreeds> get() = _relevantBreedsFromSearchInput
@@ -27,13 +27,13 @@ class SearchViewModel : ViewModel() {
     var errorMessage: String = ""
         private set
 
-    fun getRelevantBreedsFromSearchInput() {
+    fun getRelevantBreedsFromSearchInput(searchInput : String) {
         _isLoading.value = true
         _isError.value = false
         if (_allBreedsData.isEmpty()){
             getAllBreedsData()
         }
-        //...
+        _relevantBreedsFromSearchInput.postValue(_allBreedsData.breedResponseWhereStringIsSubstringOfName(searchInput))
         _isLoading.value = false
     }
 
@@ -52,7 +52,7 @@ class SearchViewModel : ViewModel() {
                     return
                 }
 
-                _allBreedsData = (responseBody as LinkedList<BreedResponse>)!! //never null because of previous check
+                _allBreedsData = (responseBody as ArrayList<BreedResponse>)!! //never null because of previous check
             }
 
             override fun onFailure(call: Call<ListOfBreeds>, t: Throwable) {
@@ -72,5 +72,18 @@ class SearchViewModel : ViewModel() {
 
         _isError.value = true
         _isLoading.value = false
+    }
+
+    fun ListOfBreeds.breedResponseWhereStringIsSubstringOfName(str: String) : ListOfBreeds{
+        var relevantBreeds = LinkedList<BreedResponse>()
+        for (item in this){
+            if (item.name == null){
+                continue
+            }
+            if (item.name.contains(str)){
+                relevantBreeds.add(item)
+            }
+        }
+        return relevantBreeds
     }
 }
