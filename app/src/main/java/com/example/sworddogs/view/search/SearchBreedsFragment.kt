@@ -28,6 +28,7 @@ class SearchBreedsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.i("PEDRO", "onCreateView entered")
         searchBreedsViewModel =
             ViewModelProvider(this).get(SearchBreedsViewModel::class.java)
 
@@ -35,18 +36,22 @@ class SearchBreedsFragment : Fragment() {
         if (firstOnCreateView){
             subscribe()
             firstOnCreateView = false
+            Log.i("PEDRO", "firstOnCreateView is true")
         }
 
         //SearchView stuff
         val searchView: SearchView = binding.simpleSearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                Log.i("PEDRO", "search user input is \"$query\"")
                 // Handle the search query submission
                 searchBreedsViewModel.getRelevantBreedsFromSearchInput(query)
+                Log.i("PEDRO", "completed search for relevant breeds is true")
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                Log.i("PEDRO", "search query text changed to \"$newText\"?")
                 // Handle changes in the search query text
                 // ignore for now
                 return true
@@ -64,17 +69,17 @@ class SearchBreedsFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     private fun subscribe() {
-        searchBreedsViewModel.isLoading.observe(requireActivity()) { isLoading ->
+        searchBreedsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading)
                 Log.i("SearchBreedsFragment", "Loading data from API and organizing relevant results...")
+                //start spinner here
+            else{
+                //stop spinner here
+            }
         }
 
-        searchBreedsViewModel.isError.observe(requireActivity()) { isError ->
+        searchBreedsViewModel.isError.observe(viewLifecycleOwner) { isError ->
             if (isError) {
                 Log.i("SearchBreedsFragment", searchBreedsViewModel.errorMessage)
 
@@ -83,9 +88,10 @@ class SearchBreedsFragment : Fragment() {
             }
         }
 
-       searchBreedsViewModel.relevantBreedsFromSearchInput.observe(requireActivity()) { allBreedsData ->
+       searchBreedsViewModel.relevantBreedsFromSearchInput.observe(viewLifecycleOwner) { allBreedsData ->
             val breedsAdapter = SearchBreedsAdapter(allBreedsData)
             binding.searchBreedsRecyclerView.adapter = breedsAdapter
+           //stop spinner here?
         }
     }
 

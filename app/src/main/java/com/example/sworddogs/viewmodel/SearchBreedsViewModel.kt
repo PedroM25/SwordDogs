@@ -1,5 +1,6 @@
 package com.example.sworddogs.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,16 +29,18 @@ class SearchBreedsViewModel : ViewModel() {
         private set
 
     fun getRelevantBreedsFromSearchInput(searchInput : String) {
+        Log.i("PEDRO", "entered view model method to get relevant breeds")
         _isLoading.value = true
         _isError.value = false
         if (_allBreedsData.isEmpty()){
-            getAllBreedsData()
+            Log.i("PEDRO", "getting all breeds bc is empty")
+            getAndSearchAllBreedsData(searchInput)
+        } else {
+            searchAllBreedsData(searchInput)
         }
-        _relevantBreedsFromSearchInput.postValue(_allBreedsData.breedResponseWhereStringIsSubstringOfName(searchInput))
-        _isLoading.value = false
     }
 
-    private fun getAllBreedsData() {
+    private fun getAndSearchAllBreedsData(searchInput : String) {
         val client = ApiConfig.getApiService().getAllBreeds()
 
         // Send API request using Retrofit
@@ -51,8 +54,10 @@ class SearchBreedsViewModel : ViewModel() {
                     onError("Data Processing Error")
                     return
                 }
-
+                Log.i("PEDRO", "response.body(): $responseBody")
                 _allBreedsData = (responseBody as ArrayList<BreedResponse>)!! //never null because of previous check
+                Log.i("PEDRO", "_allBreedsData after: $_allBreedsData")
+                searchAllBreedsData(searchInput)
             }
 
             override fun onFailure(call: Call<ListOfBreeds>, t: Throwable) {
@@ -60,6 +65,11 @@ class SearchBreedsViewModel : ViewModel() {
                 t.printStackTrace()
             }
         })
+    }
+
+    private fun searchAllBreedsData(searchInput: String) {
+        _relevantBreedsFromSearchInput.postValue(_allBreedsData.breedResponseWhereStringIsSubstringOfName(searchInput))
+        _isLoading.value = false
     }
 
     private fun onError(inputMessage: String?) {
@@ -74,16 +84,23 @@ class SearchBreedsViewModel : ViewModel() {
         _isLoading.value = false
     }
 
-    fun ListOfBreeds.breedResponseWhereStringIsSubstringOfName(str: String) : ListOfBreeds{
+    private fun ListOfBreeds.breedResponseWhereStringIsSubstringOfName(str: String) : ListOfBreeds{
         var relevantBreeds = LinkedList<BreedResponse>()
         for (item in this){
             if (item.name == null){
                 continue
             }
-            if (item.name.contains(str)){
+            Log.i("PEDRO", "curr breed: ${item.name}")
+            Log.i("PEDRO", "does breed \"${item.name}\" contain the string $str?")
+            if (item.name.contains(str,true)){
                 relevantBreeds.add(item)
             }
         }
+        val names = relevantBreeds.map(fun(breed: BreedResponse): String {
+            return breed.name!!
+        })
+        Log.i("PEDRO", "relevant breed names are: $names")
+        Log.i("PEDRO", "relevant breeds are: $relevantBreeds")
         return relevantBreeds
     }
 }
