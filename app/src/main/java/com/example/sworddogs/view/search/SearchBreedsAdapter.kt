@@ -1,10 +1,12 @@
 package com.example.sworddogs.view.search
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sworddogs.R
@@ -20,6 +22,15 @@ RecyclerView.Adapter<SearchBreedsAdapter.SearchBreedsViewHolder>() {
 
     override fun onBindViewHolder(holder: SearchBreedsViewHolder, position: Int) {
         val data = listOfSearchRelevantBreeds[position]
+        holder.itemView.setOnClickListener{
+            val args = Bundle()
+            args.putCharSequence("breedName", data.name)
+            args.putCharSequence("breedOrigin", data.origin)
+            args.putCharSequence("breedTemperament", data.temperament)
+            args.putCharSequence("breedGroup", data.breedGroup)
+            it.findNavController().navigate(R.id.action_navigation_search_to_navigation_detailed_breed, args)
+        }
+
         holder.breedNameTextView.text = data.name
         holder.breedGroupTextView.text = data.breedGroup
         holder.breedOriginTextView.text = data.origin

@@ -30,7 +30,6 @@ class BreedsFragment : Fragment() {
     private var allBreedsLoaded = false
     private var currentSpan = 1
 
-    //state seems to be lost when switch between apps of the bottom navigation bar?
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -128,13 +127,6 @@ class BreedsFragment : Fragment() {
                 toast.show()
             }
         }
-
-        /* ANTIGO
-        breedsViewModel.allBreedsData.observe(viewLifecycleOwner) { allBreedsData ->
-            val breedsAdapter = BreedsAdapter(allBreedsData)
-            binding.allBreeds.adapter = breedsAdapter
-        }
-        */
 
         breedsViewModel.limitedBreedsData.observe(requireActivity()) { limitedBreedsData ->
             Log.i("PEDRO", "the breeds list changed! new breeds received: $limitedBreedsData ")

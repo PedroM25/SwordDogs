@@ -1,11 +1,13 @@
 package com.example.sworddogs.view.breeds
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sworddogs.ListOfBreeds
@@ -17,11 +19,24 @@ class BreedsAdapter(private var listOfLimitedBreeds: MutableList<BreedResponse> 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.fragment_photo_breed_card, parent, false)
+        itemView.setOnClickListener{
+
+
+        }
         return BreedViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: BreedViewHolder, position: Int) {
         val data = listOfLimitedBreeds[position]
+        holder.itemView.setOnClickListener{
+            val args = Bundle()
+            args.putCharSequence("breedName", data.name)
+            args.putCharSequence("breedOrigin", data.origin)
+            args.putCharSequence("breedTemperament", data.temperament)
+            args.putCharSequence("breedGroup", data.breedGroup)
+            it.findNavController().navigate(R.id.action_navigation_breeds_to_navigation_detailed_breed, args)
+        }
+
         holder.breedNameTextView.text = data.name
         Glide
             .with(holder.dogBreedImageView)

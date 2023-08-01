@@ -9,13 +9,23 @@
         android:id="@+id/navigation_breeds"
         android:name="com.example.sworddogs.view.breeds.BreedsFragment"
         android:label="@string/title_breeds"
-        tools:layout="@layout/fragment_breeds" />
+        tools:layout="@layout/fragment_breeds" >
+        <action
+            android:id="@+id/action_navigation_breeds_to_navigation_detailed_breed"
+            app:destination="@id/navigation_detailed_breed"
+            />
+
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_search"
+        android:id="@+id/navigation_search_breeds"
         android:name="com.example.sworddogs.view.search.SearchBreedsFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search_breeds" />
+        tools:layout="@layout/fragment_search_breeds" >
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_detailed_breed"
+            app:destination="@id/navigation_detailed_breed" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_detailed_breed"

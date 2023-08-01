@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.sworddogs.databinding.FragmentDetailedBreedBinding
-import com.example.sworddogs.viewmodel.DetailedBreedViewModel
 
 class DetailedBreedFragment : Fragment() {
 
@@ -23,17 +20,13 @@ class DetailedBreedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val detailedBreedViewModel =
-            ViewModelProvider(this).get(DetailedBreedViewModel::class.java)
-
         _binding = FragmentDetailedBreedBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding.breedName.text = arguments?.getCharSequence("breedName")
+        binding.breedOrigin.text = arguments?.getCharSequence("breedOrigin")
+        binding.breedTemperament.text = arguments?.getCharSequence("breedTemperament")
+        binding.breedGroup.text = arguments?.getCharSequence("breedGroup")
 
-        val textView: TextView = binding.textDetailedBreed
-        detailedBreedViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

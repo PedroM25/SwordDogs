@@ -88,7 +88,7 @@ class SearchBreedsFragment : Fragment() {
             }
         }
 
-       searchBreedsViewModel.relevantBreedsFromSearchInput.observe(viewLifecycleOwner) { allBreedsData ->
+       searchBreedsViewModel.relevantBreedsFromSearchInput.observe(requireActivity()) { allBreedsData ->
             val breedsAdapter = SearchBreedsAdapter(allBreedsData)
             binding.searchBreedsRecyclerView.adapter = breedsAdapter
            //stop spinner here?

@@ -90,8 +90,6 @@ class SearchBreedsViewModel : ViewModel() {
             if (item.name == null){
                 continue
             }
-            Log.i("PEDRO", "curr breed: ${item.name}")
-            Log.i("PEDRO", "does breed \"${item.name}\" contain the string $str?")
             if (item.name.contains(str,true)){
                 relevantBreeds.add(item)
             }
