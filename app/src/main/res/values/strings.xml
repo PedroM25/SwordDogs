@@ -7,7 +7,7 @@
     <string name="dog_photo_desc">Photo of a dog representing its breed</string>
     <string name="grid_linear_switch_button_desc">Switch between a linear layout or a grid layout</string>
     <string name="order_alphabetically_button_desc">Order breeds alphabetically by their name</string>
-    <string name="detailed_breed_name"><![CDATA[<b>Breed:</b>]]> %1$s</string>
+    <!--string name="detailed_breed_name"><![CDATA[<b>Breed:</b>]]> %1$s</string-->
     <string name="detailed_breed_origin"><![CDATA[<b>Origin:</b>]]> %1$s</string>
     <string name="detailed_breed_group"><![CDATA[<b>Group:</b>]]> %1$s</string>
     <string name="detailed_breed_temperament"><![CDATA[<b>Temperament:</b>]]> %1$s</string>

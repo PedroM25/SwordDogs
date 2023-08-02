@@ -9,6 +9,10 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.sworddogs.BUNDLE_BREED_GROUP
+import com.example.sworddogs.BUNDLE_BREED_NAME
+import com.example.sworddogs.BUNDLE_BREED_ORIGIN
+import com.example.sworddogs.BUNDLE_BREED_TEMPERAMENT
 import com.example.sworddogs.R
 import com.example.sworddogs.model.BreedResponse
 
@@ -24,10 +28,10 @@ RecyclerView.Adapter<SearchBreedsAdapter.SearchBreedsViewHolder>() {
         val data = listOfSearchRelevantBreeds[position]
         holder.itemView.setOnClickListener{
             val args = Bundle()
-            args.putCharSequence("breedName", data.name)
-            args.putCharSequence("breedOrigin", data.origin)
-            args.putCharSequence("breedTemperament", data.temperament)
-            args.putCharSequence("breedGroup", data.breedGroup)
+            args.putCharSequence(BUNDLE_BREED_NAME, data.name)
+            args.putCharSequence(BUNDLE_BREED_ORIGIN, data.origin)
+            args.putCharSequence(BUNDLE_BREED_TEMPERAMENT, data.temperament)
+            args.putCharSequence(BUNDLE_BREED_GROUP, data.breedGroup)
             it.findNavController().navigate(R.id.action_navigation_search_to_navigation_detailed_breed, args)
         }
 
@@ -42,6 +46,5 @@ RecyclerView.Adapter<SearchBreedsAdapter.SearchBreedsViewHolder>() {
         val breedNameTextView: TextView = itemView.findViewById(R.id.breed_name)
         val breedGroupTextView: TextView = itemView.findViewById(R.id.breed_group)
         val breedOriginTextView: TextView = itemView.findViewById(R.id.breed_origin)
-        // You can also set click listeners or other customization here if needed
     }
 }

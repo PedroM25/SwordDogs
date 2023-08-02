@@ -13,6 +13,7 @@ interface ApiService {
         @Query("x-api-key") key: String = ApiConfig.API_KEY
     ): Call<ListOfBreeds>
 
+    // Get paginated breeds
     @GET("breeds")
     fun getLimitedBreeds(
         @Query("x-api-key") key: String = ApiConfig.API_KEY,

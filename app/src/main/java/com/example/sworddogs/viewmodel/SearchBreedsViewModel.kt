@@ -28,12 +28,14 @@ class SearchBreedsViewModel : ViewModel() {
     var errorMessage: String = ""
         private set
 
+    private val CLASS_TAG get() = this::class.simpleName
+
     fun getRelevantBreedsFromSearchInput(searchInput : String) {
-        Log.i("PEDRO", "entered view model method to get relevant breeds")
+        Log.i(CLASS_TAG, "Entered ViewModel method to get relevant breeds")
         _isLoading.value = true
         _isError.value = false
         if (_allBreedsData.isEmpty()){
-            Log.i("PEDRO", "getting all breeds bc is empty")
+            Log.i(CLASS_TAG, "Getting all breeds bc is empty")
             getAndSearchAllBreedsData(searchInput)
         } else {
             searchAllBreedsData(searchInput)
@@ -54,9 +56,9 @@ class SearchBreedsViewModel : ViewModel() {
                     onError("Data Processing Error")
                     return
                 }
-                Log.i("PEDRO", "response.body(): $responseBody")
+                Log.d(CLASS_TAG, "response.body(): $responseBody")
                 _allBreedsData = (responseBody as ArrayList<BreedResponse>)!! //never null because of previous check
-                Log.i("PEDRO", "_allBreedsData after: $_allBreedsData")
+                Log.d(CLASS_TAG, "_allBreedsData after: $_allBreedsData")
                 searchAllBreedsData(searchInput)
             }
 
@@ -94,11 +96,8 @@ class SearchBreedsViewModel : ViewModel() {
                 relevantBreeds.add(item)
             }
         }
-        val names = relevantBreeds.map(fun(breed: BreedResponse): String {
-            return breed.name!!
-        })
-        Log.i("PEDRO", "relevant breed names are: $names")
-        Log.i("PEDRO", "relevant breeds are: $relevantBreeds")
+
+        Log.i(CLASS_TAG, "Relevant breeds are: $relevantBreeds")
         return relevantBreeds
     }
 }

@@ -21,14 +21,14 @@ class SearchBreedsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var searchBreedsViewModel: SearchBreedsViewModel
 
-    private var firstOnCreateView = true
+    private val CLASS_TAG get() = this::class.simpleName
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.i("PEDRO", "onCreateView entered")
+        Log.d(CLASS_TAG, "onCreateView entered")
         searchBreedsViewModel =
             ViewModelProvider(this).get(SearchBreedsViewModel::class.java)
 
@@ -37,23 +37,22 @@ class SearchBreedsFragment : Fragment() {
 
         //SearchView stuff
         val searchView: SearchView = binding.simpleSearchView
-        Log.i("PEDRO", "am I coming from another fragment?")
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                Log.i("PEDRO", "search user input is \"$query\"")
-                // Handle the search query submission
+                Log.i(CLASS_TAG, "User searched for: \"$query\"")
                 searchBreedsViewModel.getRelevantBreedsFromSearchInput(query)
-                Log.i("PEDRO", "completed search for relevant breeds is true")
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                Log.i("PEDRO", "search query text changed to \"$newText\"?")
+                Log.d(CLASS_TAG, "Search query text changed to \"$newText\"?")
                 // Handle changes in the search query text
-                // ignore for now
+                // This alternative was considered but ultimately I found the experience too confusing
                 return true
             }
         })
+
+        // "X button in SearchView" stuff
         val clearButton: View = searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
         clearButton.setOnClickListener {
             searchView.setQuery("", false)
@@ -74,7 +73,7 @@ class SearchBreedsFragment : Fragment() {
     private fun subscribe() {
         searchBreedsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading)
-                Log.i("SearchBreedsFragment", "Loading data from API and organizing relevant results...")
+                Log.i(CLASS_TAG, "Getting data from API + searching for user-input-relevant results...")
                 //start spinner here
             else{
                 //stop spinner here
@@ -83,16 +82,16 @@ class SearchBreedsFragment : Fragment() {
 
         searchBreedsViewModel.isError.observe(viewLifecycleOwner) { isError ->
             if (isError) {
-                Log.i("SearchBreedsFragment", searchBreedsViewModel.errorMessage)
+                Log.i(CLASS_TAG, searchBreedsViewModel.errorMessage)
 
-                val toast = Toast.makeText(requireContext(), searchBreedsViewModel.errorMessage, Toast.LENGTH_SHORT) // in Activity
+                val toast = Toast.makeText(requireContext(), searchBreedsViewModel.errorMessage, Toast.LENGTH_SHORT)
                 toast.show()
             }
         }
 
        searchBreedsViewModel.relevantBreedsFromSearchInput.observe(viewLifecycleOwner) { allBreedsData ->
-           Log.i("PEDRO", "live data relevantBreedsFromSearchInput activated ")
-           Log.i("PEDRO", "live data $allBreedsData ")
+           Log.d(CLASS_TAG, "live data relevantBreedsFromSearchInput activated ")
+           Log.d(CLASS_TAG, "live data $allBreedsData ")
            val breedsAdapter = SearchBreedsAdapter(allBreedsData)
             binding.searchBreedsRecyclerView.adapter = breedsAdapter
            //stop spinner here?

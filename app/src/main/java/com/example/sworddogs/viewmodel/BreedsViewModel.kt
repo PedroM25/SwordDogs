@@ -29,8 +29,10 @@ class BreedsViewModel : ViewModel() {
     var errorMessage: String = ""
         private set
 
+    private val CLASS_TAG get() = this::class.simpleName
+
     fun getBreedsData(numberBreedsToLoad: Int){
-        Log.i("PEDRO", "Entering method that calls API")
+        Log.d(CLASS_TAG, "Entering method that queries API. No breeds to load: $numberBreedsToLoad")
         _isLoading.value = true
         _isError.value = false
 
@@ -48,7 +50,7 @@ class BreedsViewModel : ViewModel() {
                     return
                 }
 
-                Log.i("PEDRO", "Response body was: $responseBody")
+                Log.d(CLASS_TAG, "Response body was: $responseBody")
                 if (responseBody.isEmpty()){
                     _isDone.value = true
                     return

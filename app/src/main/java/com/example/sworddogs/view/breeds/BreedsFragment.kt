@@ -30,6 +30,8 @@ class BreedsFragment : Fragment() {
     private var allBreedsLoaded = false
     private var currentSpan = 1
 
+    private val CLASS_TAG get() = this::class.simpleName
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,7 +44,6 @@ class BreedsFragment : Fragment() {
         //adapter stuff
         binding.allBreeds.adapter = breedsAdapter
 
-        //listen for state changes
         if (firstOnCreateView) {
             // it's either this + live datas
             // or
@@ -51,7 +52,7 @@ class BreedsFragment : Fragment() {
             subscribe()
             firstOnCreateView = false
             breedsViewModel.getBreedsData(LOAD_THRESHOLD)
-            Log.i("PEDRO", "Fetched $LOAD_THRESHOLD breeds initially")
+            Log.i(CLASS_TAG, "Fetched $LOAD_THRESHOLD breeds initially")
         }
 
         //RecyclerView stuff
@@ -61,24 +62,21 @@ class BreedsFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (!recyclerView.canScrollVertically(1) && dy > 0) {
-                    Log.i("PEDRO", "Scrolled to bottom?")
+                    Log.i(CLASS_TAG, "Scrolled to bottom")
                     if (!allBreedsLoaded) {
                         breedsViewModel.getBreedsData(LOAD_THRESHOLD)
                     }
                 } else if (!recyclerView.canScrollVertically(-1) && dy < 0) {
-                    Log.i("PEDRO", "Scrolled to top")
+                    Log.i(CLASS_TAG, "Scrolled to top")
                 }
             }
         })
 
-        //Buttons stuff
-        if (currentSpan > 1){
+        // "Grid/linear switch" button stuff
+        if (currentSpan > 1)
             binding.gridLinearSwitchButton.setIconResource(R.drawable.baseline_view_list_24)
-        }
-        if (currentSpan == 1){
+        if (currentSpan == 1)
             binding.gridLinearSwitchButton.setIconResource(R.drawable.baseline_grid_view_24)
-        }
-
         binding.gridLinearSwitchButton.setOnClickListener {
             val grid = binding.allBreeds.layoutManager as GridLayoutManager
             if (grid.spanCount > 1){
@@ -95,9 +93,11 @@ class BreedsFragment : Fragment() {
             }
         }
 
+        // "Order alphabetically" button stuff
         binding.orderAlphabeticallyButton.setOnClickListener {
             breedsAdapter.orderAlphabetically()
         }
+
         return binding.root
     }
 
@@ -109,27 +109,27 @@ class BreedsFragment : Fragment() {
     private fun subscribe() {
         breedsViewModel.isLoading.observe(requireActivity()) { isLoading ->
             if (isLoading)
-                Log.i("BreedsFragment", "Loading data from API...")
+                Log.i(CLASS_TAG, "Loading data from API...")
         }
 
         breedsViewModel.isDone.observe(requireActivity()) { isDone ->
             if (isDone) {
-                Log.i("BreedsFragment", "API depleted, no more breeds to fetch")
+                Log.i(CLASS_TAG, "API depleted, no more breeds to fetch")
                 allBreedsLoaded = true
             }
         }
 
         breedsViewModel.isError.observe(requireActivity()) { isError ->
             if (isError) {
-                Log.i("BreedsFragment", breedsViewModel.errorMessage)
+                Log.i(CLASS_TAG, breedsViewModel.errorMessage)
 
-                val toast = Toast.makeText(requireContext(), breedsViewModel.errorMessage, Toast.LENGTH_SHORT) // in Activity
+                val toast = Toast.makeText(requireContext(), breedsViewModel.errorMessage, Toast.LENGTH_SHORT)
                 toast.show()
             }
         }
 
         breedsViewModel.limitedBreedsData.observe(requireActivity()) { limitedBreedsData ->
-            Log.i("PEDRO", "the breeds list changed! new breeds received: $limitedBreedsData ")
+            Log.d(CLASS_TAG, "New set of breeds received: $limitedBreedsData")
             breedsAdapter.addReceivedBreeds(limitedBreedsData)
         }
     }
