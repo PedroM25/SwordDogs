@@ -37,6 +37,7 @@ class SearchBreedsFragment : Fragment() {
 
         //SearchView stuff
         val searchView: SearchView = binding.simpleSearchView
+        Log.i("PEDRO", "am I coming from another fragment?")
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 Log.i("PEDRO", "search user input is \"$query\"")
@@ -53,6 +54,11 @@ class SearchBreedsFragment : Fragment() {
                 return true
             }
         })
+        val clearButton: View = searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
+        clearButton.setOnClickListener {
+            searchView.setQuery("", false)
+            binding.searchBreedsRecyclerView.adapter = null
+        }
 
         // add loading spinner
         // fetch all breeds

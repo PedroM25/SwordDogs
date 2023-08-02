@@ -12,11 +12,6 @@ import retrofit2.Response
 
 class BreedsViewModel : ViewModel() {
 
-    /* ANTIGO
-    private val _allBreedsData = MutableLiveData<ListOfBreeds>()
-    val allBreedsData: LiveData<ListOfBreeds> get() = _allBreedsData
-     */
-
     private val _limitedBreedsData = MutableLiveData<ListOfBreeds>()
     val limitedBreedsData: LiveData<ListOfBreeds> get() = _limitedBreedsData
 
@@ -69,38 +64,6 @@ class BreedsViewModel : ViewModel() {
             }
         })
     }
-
-    /* ANTIGO
-    fun getAllBreedsData(){
-        _isLoading.value = true
-        _isError.value = false
-
-        val client = ApiConfig.getApiService().getAllBreeds()
-
-        // Send API request using Retrofit
-        client.enqueue(object : Callback<ListOfBreeds> {
-            override fun onResponse(
-                call: Call<ListOfBreeds>,
-                response: Response<ListOfBreeds>
-            ) {
-                val responseBody = response.body()
-                if (!response.isSuccessful || responseBody == null) {
-                    onError("Data Processing Error")
-                    return
-                }
-
-                _isLoading.value = false
-                _allBreedsData.postValue(responseBody!!) //never null because of previous check
-            }
-
-            override fun onFailure(call: Call<ListOfBreeds>, t: Throwable) {
-                onError(t.message)
-                t.printStackTrace()
-            }
-        })
-    }
-
-     */
 
     private fun onError(inputMessage: String?) {
 
