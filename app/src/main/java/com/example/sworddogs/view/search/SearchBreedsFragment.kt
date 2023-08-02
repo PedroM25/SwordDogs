@@ -33,11 +33,7 @@ class SearchBreedsFragment : Fragment() {
             ViewModelProvider(this).get(SearchBreedsViewModel::class.java)
 
         _binding = FragmentSearchBreedsBinding.inflate(inflater, container, false)
-        if (firstOnCreateView){
-            subscribe()
-            firstOnCreateView = false
-            Log.i("PEDRO", "firstOnCreateView is true")
-        }
+        subscribe()
 
         //SearchView stuff
         val searchView: SearchView = binding.simpleSearchView
@@ -88,11 +84,13 @@ class SearchBreedsFragment : Fragment() {
             }
         }
 
-       searchBreedsViewModel.relevantBreedsFromSearchInput.observe(requireActivity()) { allBreedsData ->
-            val breedsAdapter = SearchBreedsAdapter(allBreedsData)
+       searchBreedsViewModel.relevantBreedsFromSearchInput.observe(viewLifecycleOwner) { allBreedsData ->
+           Log.i("PEDRO", "live data relevantBreedsFromSearchInput activated ")
+           Log.i("PEDRO", "live data $allBreedsData ")
+           val breedsAdapter = SearchBreedsAdapter(allBreedsData)
             binding.searchBreedsRecyclerView.adapter = breedsAdapter
            //stop spinner here?
-        }
+       }
     }
 
     override fun onDestroyView() {
