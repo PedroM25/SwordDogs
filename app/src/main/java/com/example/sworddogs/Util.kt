@@ -16,6 +16,7 @@ const val BUNDLE_BREED_ORIGIN = "breedOrigin"
 const val BUNDLE_BREED_TEMPERAMENT = "breedTemperament"
 const val BUNDLE_BREED_GROUP = "breedGroup"
 
+//Source: https://stackoverflow.com/a/61250698/7327118
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val pending = AtomicBoolean(false)

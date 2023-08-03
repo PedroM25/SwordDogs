@@ -6,6 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+//source: https://medium.com/@dimaswisodewo98/fetch-data-from-api-in-android-studio-kotlin-using-retrofit-with-mvvm-architecture-4f6b673f6a28
 class ApiConfig {
     companion object {
         const val API_KEY = "live_SSG92GGnK5vQy6ezkjH6gguK2PtQ3xL0tsClj5i4PKPacbb2SPuLenvjOUpFr6Sp"

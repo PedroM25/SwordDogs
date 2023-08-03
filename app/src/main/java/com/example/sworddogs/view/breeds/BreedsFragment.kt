@@ -60,6 +60,8 @@ class BreedsFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(requireContext(), currentSpan)
         binding.allBreeds.layoutManager = gridLayoutManager
         binding.allBreeds.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            //source: https://stackoverflow.com/a/63009286/7327118
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (!recyclerView.canScrollVertically(1) && dy > 0) {
