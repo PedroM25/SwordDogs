@@ -12,6 +12,7 @@ The app does NOT feature:
 * Does not react to live network changes
 * Request retry mechanisms
 * Loading spinner for Breeds screen
+* Offline caching of data
 
 
 ## Showcase
