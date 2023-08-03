@@ -26,7 +26,7 @@ class BreedsFragment : Fragment() {
     private val breedsAdapter = BreedsAdapter()
     private lateinit var breedsViewModel: BreedsViewModel
 
-    private var firstOnCreateView = true
+    private var didFirstDownload = false
     private var allBreedsLoaded = false
     private var currentSpan = 1
 
@@ -45,13 +45,13 @@ class BreedsFragment : Fragment() {
         //adapter stuff
         binding.allBreeds.adapter = breedsAdapter
 
-        if (firstOnCreateView) {
-            // it's either this + live datas
-            // or
-            // make API calls directly in the Adapter to be able to directly manipulate
-            // list of breeds
-            subscribe()
-            firstOnCreateView = false
+        // it's either this + live datas
+        // or
+        // make API calls directly in the Adapter to be able to directly manipulate
+        // list of breeds
+        subscribe()
+        if (!didFirstDownload) {
+            Log.i("PEDRO", "Didn't do first download so, attempt ")
             breedsViewModel.getBreedsData(LOAD_THRESHOLD)
             Log.i(CLASS_TAG, "Fetched $LOAD_THRESHOLD breeds initially")
         }
@@ -108,7 +108,8 @@ class BreedsFragment : Fragment() {
     }
 
     private fun subscribe() {
-        breedsViewModel.isLoading.observe(requireActivity()) { isLoading ->
+        breedsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            Log.d(CLASS_TAG, "LIVE DATA isLoading entered")
             if (isLoading) {
                 Log.i(CLASS_TAG, "Loading data from API...")
                 binding.statusMessage.text = "Loading..."
@@ -116,25 +117,36 @@ class BreedsFragment : Fragment() {
             }
         }
 
-        breedsViewModel.isDone.observe(requireActivity()) { isDone ->
+        breedsViewModel.isDone.observe(viewLifecycleOwner) { isDone ->
+            Log.d(CLASS_TAG, "LIVE DATA isDone entered")
             if (isDone) {
                 Log.i(CLASS_TAG, "API depleted, no more breeds to fetch")
                 allBreedsLoaded = true
             }
         }
 
-        breedsViewModel.isError.observe(requireActivity()) { isError ->
+        breedsViewModel.isError.observe(viewLifecycleOwner) { isError ->
+            Log.d(CLASS_TAG, "LIVE DATA isError entered")
             if (isError) {
-                binding.statusMessage.text = breedsViewModel.errorMessage
-                binding.statusMessage.visibility = View.VISIBLE
+                if (!didFirstDownload) {
+                    binding.statusMessage.text = breedsViewModel.errorMessage
+                    binding.statusMessage.visibility = View.VISIBLE
+                } else {
+                    val toast = Toast.makeText(requireContext(), breedsViewModel.errorMessage, Toast.LENGTH_SHORT)
+                    toast.show()
+                }
 
                 // Dev notes: Also considered and also seems feasible but I prefer the text option
-                // val toast = Toast.makeText(requireContext(), breedsViewModel.errorMessage, Toast.LENGTH_SHORT)
-                // toast.show()
+
             }
         }
 
-        breedsViewModel.limitedBreedsData.observe(requireActivity()) { limitedBreedsData ->
+        breedsViewModel.limitedBreedsData.observe(viewLifecycleOwner) { limitedBreedsData ->
+            if (!didFirstDownload) {
+                Log.i("PEDRO", "After doing first download: didFirstDownload now TRUE")
+                didFirstDownload = true
+            }
+            Log.d(CLASS_TAG, "LIVE DATA limitedBreedsData entered")
             Log.d(CLASS_TAG, "New set of breeds received: $limitedBreedsData")
             binding.statusMessage.visibility = View.GONE
             breedsAdapter.addReceivedBreeds(limitedBreedsData)

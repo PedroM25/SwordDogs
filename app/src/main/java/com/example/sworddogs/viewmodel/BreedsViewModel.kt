@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.sworddogs.ListOfBreeds
+import com.example.sworddogs.SingleLiveEvent
 import com.example.sworddogs.networking.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,16 +13,16 @@ import retrofit2.Response
 
 class BreedsViewModel : ViewModel() {
 
-    private val _limitedBreedsData = MutableLiveData<ListOfBreeds>()
+    private val _limitedBreedsData = SingleLiveEvent<ListOfBreeds>()
     val limitedBreedsData: LiveData<ListOfBreeds> get() = _limitedBreedsData
 
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = SingleLiveEvent<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _isDone = MutableLiveData<Boolean>()
+    private val _isDone = SingleLiveEvent<Boolean>()
     val isDone: LiveData<Boolean> get() = _isDone
 
-    private val _isError = MutableLiveData<Boolean>()
+    private val _isError = SingleLiveEvent<Boolean>()
     val isError: LiveData<Boolean> get() = _isError
 
     private var numberOfPageToRetrieve: Int = 0

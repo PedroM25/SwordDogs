@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 typealias ListOfBreeds = List<BreedResponse>
 
 const val SPAN = 3
-const val LOAD_THRESHOLD  = SPAN * 6
+const val LOAD_THRESHOLD  = SPAN * 4
 
 const val BUNDLE_BREED_NAME = "breedName"
 const val BUNDLE_BREED_ORIGIN = "breedOrigin"
