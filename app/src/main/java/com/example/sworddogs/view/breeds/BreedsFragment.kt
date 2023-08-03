@@ -112,7 +112,7 @@ class BreedsFragment : Fragment() {
             Log.d(CLASS_TAG, "LIVE DATA isLoading entered")
             if (isLoading) {
                 Log.i(CLASS_TAG, "Loading data from API...")
-                binding.statusMessage.text = "Loading..."
+                binding.statusMessage.text = getString(R.string.loading)
                 binding.statusMessage.visibility = View.VISIBLE
             }
         }

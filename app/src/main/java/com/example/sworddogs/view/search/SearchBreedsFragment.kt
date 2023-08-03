@@ -70,7 +70,7 @@ class SearchBreedsFragment : Fragment() {
             Log.d(CLASS_TAG, "LIVE DATA isLoading entered")
             if (isLoading) {
                 Log.i(CLASS_TAG,"Getting data from API + searching for user-input-relevant results...")
-                binding.statusMessage.text = "Loading..."
+                binding.statusMessage.text = getString(R.string.loading)
                 binding.statusMessage.visibility = View.VISIBLE
                 //start spinner here
             }
