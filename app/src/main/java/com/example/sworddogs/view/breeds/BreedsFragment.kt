@@ -37,6 +37,7 @@ class BreedsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(CLASS_TAG, "onCreateView entered")
         breedsViewModel =
             ViewModelProvider(this).get(BreedsViewModel::class.java)
         _binding = FragmentBreedsBinding.inflate(inflater, container, false)
@@ -108,8 +109,11 @@ class BreedsFragment : Fragment() {
 
     private fun subscribe() {
         breedsViewModel.isLoading.observe(requireActivity()) { isLoading ->
-            if (isLoading)
+            if (isLoading) {
                 Log.i(CLASS_TAG, "Loading data from API...")
+                binding.statusMessage.text = "Loading..."
+                binding.statusMessage.visibility = View.VISIBLE
+            }
         }
 
         breedsViewModel.isDone.observe(requireActivity()) { isDone ->
@@ -121,15 +125,18 @@ class BreedsFragment : Fragment() {
 
         breedsViewModel.isError.observe(requireActivity()) { isError ->
             if (isError) {
-                Log.i(CLASS_TAG, breedsViewModel.errorMessage)
+                binding.statusMessage.text = breedsViewModel.errorMessage
+                binding.statusMessage.visibility = View.VISIBLE
 
-                val toast = Toast.makeText(requireContext(), breedsViewModel.errorMessage, Toast.LENGTH_SHORT)
-                toast.show()
+                // Dev notes: Also considered and also seems feasible but I prefer the text option
+                // val toast = Toast.makeText(requireContext(), breedsViewModel.errorMessage, Toast.LENGTH_SHORT)
+                // toast.show()
             }
         }
 
         breedsViewModel.limitedBreedsData.observe(requireActivity()) { limitedBreedsData ->
             Log.d(CLASS_TAG, "New set of breeds received: $limitedBreedsData")
+            binding.statusMessage.visibility = View.GONE
             breedsAdapter.addReceivedBreeds(limitedBreedsData)
         }
     }

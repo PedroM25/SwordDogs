@@ -79,8 +79,9 @@ class SearchBreedsViewModel : ViewModel() {
             if (inputMessage.isNullOrBlank() or inputMessage.isNullOrEmpty()) "Unknown Error"
             else inputMessage
 
-        errorMessage = StringBuilder("ERROR: ")
-            .append("$message some data may not displayed properly").toString()
+        errorMessage = message!! //checked above for null-ity
+
+        Log.d(CLASS_TAG, "onError(): $message")
 
         _isError.value = true
         _isLoading.value = false

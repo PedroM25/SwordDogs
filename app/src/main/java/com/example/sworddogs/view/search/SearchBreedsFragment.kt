@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.sworddogs.R
 import com.example.sworddogs.databinding.FragmentSearchBreedsBinding
 import com.example.sworddogs.viewmodel.SearchBreedsViewModel
 
@@ -44,10 +45,10 @@ class SearchBreedsFragment : Fragment() {
                 return true
             }
 
+            // Dev notes: This alternative was considered but ultimately,
+            // I found it too much
             override fun onQueryTextChange(newText: String): Boolean {
                 Log.d(CLASS_TAG, "Search query text changed to \"$newText\"?")
-                // Handle changes in the search query text
-                // This alternative was considered but ultimately I found the experience too confusing
                 return true
             }
         })
@@ -57,41 +58,40 @@ class SearchBreedsFragment : Fragment() {
         clearButton.setOnClickListener {
             searchView.setQuery("", false)
             binding.searchBreedsRecyclerView.adapter = null
+            binding.statusMessage.visibility = View.VISIBLE
+            binding.statusMessage.text = getString(R.string.fragment_search_breeds_nothing_to_show_yet)
         }
-
-        // add loading spinner
-        // fetch all breeds
-            // when user hits "Search", if allBreeds.isEmpty() perform API call
-        // perform search of user input against allBreeds vector
-        // choose relevant items to display (simple "is substring of names of breeds")
-        // remove spinner
-        // show results
 
         return binding.root
     }
 
     private fun subscribe() {
         searchBreedsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading)
-                Log.i(CLASS_TAG, "Getting data from API + searching for user-input-relevant results...")
+            Log.d(CLASS_TAG, "LIVE DATA isLoading entered")
+            if (isLoading) {
+                Log.i(CLASS_TAG,"Getting data from API + searching for user-input-relevant results...")
+                binding.statusMessage.text = "Loading..."
+                binding.statusMessage.visibility = View.VISIBLE
                 //start spinner here
-            else{
-                //stop spinner here
             }
         }
 
         searchBreedsViewModel.isError.observe(viewLifecycleOwner) { isError ->
+            Log.d(CLASS_TAG, "LIVE DATA isError entered")
             if (isError) {
-                Log.i(CLASS_TAG, searchBreedsViewModel.errorMessage)
+                binding.statusMessage.text = searchBreedsViewModel.errorMessage
+                binding.statusMessage.visibility = View.VISIBLE
 
-                val toast = Toast.makeText(requireContext(), searchBreedsViewModel.errorMessage, Toast.LENGTH_SHORT)
-                toast.show()
+                // Dev notes: Also considered and also seems feasible but I prefer the text option
+                //val toast = Toast.makeText(requireContext(), searchBreedsViewModel.errorMessage, Toast.LENGTH_SHORT)
+                //toast.show()
             }
         }
 
        searchBreedsViewModel.relevantBreedsFromSearchInput.observe(viewLifecycleOwner) { allBreedsData ->
-           Log.d(CLASS_TAG, "live data relevantBreedsFromSearchInput activated ")
-           Log.d(CLASS_TAG, "live data $allBreedsData ")
+           Log.d(CLASS_TAG, "LIVE DATA relevantBreedsFromSearchInput entered")
+           Log.d(CLASS_TAG, "live data: $allBreedsData ")
+           binding.statusMessage.visibility = View.GONE
            val breedsAdapter = SearchBreedsAdapter(allBreedsData)
             binding.searchBreedsRecyclerView.adapter = breedsAdapter
            //stop spinner here?
